@@ -1,0 +1,14 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[gpg]
+	format = ssh
+[user]
+	signingKey = /path/to/id_dilithium5
+[gpg "ssh"]
+	allowedSignersFile = /path/to/allowed_signers
+	program = /path/to/OQS-OpenSSH/ssh-keygen
+[commit]
+	gpgSign = true
