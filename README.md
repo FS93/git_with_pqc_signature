@@ -6,7 +6,7 @@ General information on git commit signing:  https://blog.dbrgn.ch/2021/11/16/git
 (Here are the commands to do the configuration manually - alternatively adapt the `config` file in this repository and replace the local `.git/config` with it)
 
 0. Setup
-	1. Install OQS-OpenSSH fork
+	1. Install [OQS-OpenSSH fork](https://github.com/open-quantum-safe/openssh/tree/OQS-v8)
 	2. `/path/to/OQS-OpenSSH/ssh-keygen -t ssh-dilithium5 -f id_dilithium5`
 		 - Generate PQC Keypair (e.g. Dilithium5)
 1.  `git config --local commit.gpgsing true`
@@ -26,9 +26,21 @@ General information on git commit signing:  https://blog.dbrgn.ch/2021/11/16/git
 -> local settings are located in `.git/config`
 
 
-# Show / Verify Signatures
+# Show Commit Data & Signature
 
-`git log --show-signature` (optionally use `--oneline` for shorter presentation)
+`git cat-file commit COMMIT_HASH -v`
+
+To extract commit data and signature, one can use 
+```bash
+git cat-file commit COMMIT_HASH -v > commit_data
+git cat-file commit HEAD | sed -ne'/^gpgsig/,/---END/s/^[a-z]* //p' > signature
+```
+
+# Verify Signature
+
+There are various options for this, e.g.
+- `git log --show-signature` (optionally use `--oneline` for shorter presentation)
+- `git verify-commit COMMIT_HASH -v`
 
 # Remarks
 - for the verification all public keys in `allowed_signers` are tried - if no verification is successful, error `No principal matched` is printed
